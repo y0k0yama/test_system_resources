@@ -1,0 +1,31 @@
+kind: ImageStream
+apiVersion: image.openshift.io/v1
+metadata:
+  labels:
+    application: httpd-test-image
+  name: httpd-test-image
+  annotations:
+    description: 'httpd image for AJP test'
+
+---
+kind: BuildConfig
+apiVersion: build.openshift.io/v1
+metadata:
+  name: httpd-test-image-build
+spec:
+  output:
+    to:
+      kind: ImageStreamTag
+      name: 'httpd-test-image:latest'
+  strategy:
+    type: Source
+    sourceStrategy:
+      from:
+        kind: ImageStreamTag
+        name: 'httpd-base-test-image:latest'
+  source:
+    type: Git
+    git:
+      uri: 'https://github.com/y0k0yama/httpd_test_image.git'
+    contextDir:
+      

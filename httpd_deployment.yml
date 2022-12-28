@@ -1,0 +1,31 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: httpd-svc
+spec:
+  selector:
+    app: httpd-deployment
+  ports:
+  - port: 8080
+    targetPort: 8080
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: httpd-deployment
+spec:
+  selector:
+    matchLabels:
+      app: httpd-deployment
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: httpd-deployment
+    spec:
+      containers:
+      - name: httpd-deployment
+        image: image-registry.openshift-image-registry.svc:5000/y0k0yama16ak1-dev/httpd-test-image:latest
+        ports:
+        - containerPort: 8080

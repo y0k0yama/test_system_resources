@@ -1,0 +1,29 @@
+kind: ImageStream
+apiVersion: image.openshift.io/v1
+metadata:
+  labels:
+    application: httpd-base-test-image
+  name: httpd-base-test-image
+  annotations:
+    description: 'httpd base image for AJP test'
+
+---
+kind: BuildConfig
+apiVersion: build.openshift.io/v1
+metadata:
+  name: httpd-base-test-image-build
+  labels:
+    build: httpd-base-test-image-build
+spec:
+  output:
+    to:
+      kind: ImageStreamTag
+      name: 'httpd-base-test-image:latest'
+  strategy:
+    type: Docker
+    dockerStrategy:
+      dockerfilePath: ./dockerfile
+  source:
+    type: Git
+    git:
+      uri: 'https://github.com/y0k0yama/httpd_base_test_image.git'

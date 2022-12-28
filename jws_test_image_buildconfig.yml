@@ -1,0 +1,33 @@
+kind: ImageStream
+apiVersion: image.openshift.io/v1
+metadata:
+  labels:
+    application: jws-test-image
+  name: jws-test-image
+  annotations:
+    description: 'jws image for AJP test'
+
+---
+kind: BuildConfig
+apiVersion: build.openshift.io/v1
+metadata:
+  name: jws-test-image-build
+  labels:
+    build: jws-test-image-build
+spec:
+  output:
+    to:
+      kind: ImageStreamTag
+      name: 'jws-test-image:latest'
+  strategy:
+    type: Source
+    sourceStrategy:
+      from:
+        kind: ImageStreamTag
+        name: 'jws-base-test-image:latest'
+  source:
+    type: Git
+    git:
+      uri: 'https://github.com/y0k0yama/jws_test_image.git'
+    contextDir:
+      

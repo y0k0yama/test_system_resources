@@ -1,0 +1,10 @@
+kind: Route
+apiVersion: route.openshift.io/v1
+metadata:
+  name: httpd-svc
+spec:
+  to:
+    kind: Service
+    name: httpd-svc
+  port:
+    targetPort: 8080
